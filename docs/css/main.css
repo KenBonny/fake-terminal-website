@@ -1,5 +1,5 @@
 ::selection {
-    background: #f7d07e;
+    background: #8eb1f5;
 }
 html, body {
     width: 100%;
@@ -45,7 +45,7 @@ body {
     user-select: none;
 }
 .prompt-color {
-    color: #e09f14;
+    color: #8eb1f5;
 }
 .input-line {
     display: -webkit-box;
@@ -88,7 +88,7 @@ body {
     z-index: 9;
     top: 0;
     left: 0;
-    background-color: #e09f14;
+    background-color: #8eb1f5;
     opacity: 0.8;
     overflow-x: hidden;
     transition: 0.3s;
@@ -120,7 +120,7 @@ body {
     border:none;
 }
 #sidenav button:hover {
-    color: #442e00;
+    color: #003399;
 }
 
 @media screen and (max-height: 450px) {
@@ -133,4 +133,12 @@ body {
     #sidenav a {
        font-size: 13px;
    }
+}
+
+
+/* Avatar */
+
+#profilePic {
+    height: auto;
+    width: 50%;
 }
