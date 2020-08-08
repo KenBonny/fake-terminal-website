@@ -88,7 +88,7 @@ body {
     z-index: 9;
     top: 0;
     left: 0;
-    background-color: #8eb1f5;
+    background-color: #000080;
     opacity: 0.8;
     overflow-x: hidden;
     transition: 0.3s;
@@ -120,7 +120,7 @@ body {
     border:none;
 }
 #sidenav button:hover {
-    color: #003399;
+    color: #8eb1f5;
 }
 
 @media screen and (max-height: 450px) {
