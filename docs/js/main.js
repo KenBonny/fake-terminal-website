@@ -180,7 +180,6 @@ var main = (function () {
     };
 
     Terminal.prototype.init = function () {
-        isPhone && (document.getElementById("githubImg").style.display = "none");
         this.sidenav.addEventListener("click", ignoreEvent);
         this.cmdLine.disabled = true;
         this.sidenavElements.forEach(function (elem) {
