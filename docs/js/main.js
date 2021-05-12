@@ -8,7 +8,32 @@
     const config = await configResponse.json();
 
     const filesResponse = await fetch('data/files.json');
-    const files = await filesResponse.json();
+    const foo = await filesResponse.json();
+
+    var files = (function () {
+        var instance;
+        class Singleton {
+            constructor(options) {
+                var options = options || Singleton.defaultOptions;
+                for (var key in Singleton.defaultOptions) {
+                    this[key] = options[key] || Singleton.defaultOptions[key];
+                }
+            }
+        }
+        Singleton.defaultOptions = {
+            "about.txt": "This website was made using only pure JavaScript with no extra libraries.\nI made it dynamic so anyone can use it, just download it from GitHub and change the config text according to your needs.\nIf you manage to find any bugs or security issues feel free to email me: luisbraganca@protonmail.com",
+            "getting_started.txt": "First, go to js/main.js and replace all the text on both singleton vars.\n- configs: All the text used on the website.\n- files: All the fake files used on the website. These files are also used to be listed on the sidenav.\nAlso please notice if a file content is a raw URL, when clicked/concatenated it will be opened on a new tab.\nDon't forget also to:\n- Change the page title on the index.html file\n- Change the website color on the css/main.css\n- Change the images located at the img folder. The suggested sizes are 150x150 for the avatar and 32x32/16x16 for the favicon.",
+            "contact.txt": "mail@example.com",
+            "social_network_1.txt": "https://www.socialite.com/username/",
+            "social_network_2.txt": "https://example.com/profile/9382/"
+        };
+        return {
+            getInstance: function (options) {
+                instance === void 0 && (instance = new Singleton(options));
+                return instance;
+            }
+        };
+    })();
 
     /**
      * AUX FUNCTIONS
@@ -136,7 +161,8 @@
                     return string.charAt(0).toUpperCase() + string.slice(1);
                 };
             })();
-            for (var file in files) {
+            for (var file in files.getInstance()) {
+                console.log(file);
                 var element = document.createElement("button");
                 Terminal.makeElementDisappear(element);
                 element.onclick = function (file, event) {
@@ -200,7 +226,7 @@
                     if (config.welcome_file_name.startsWith(cmdComponents[1].toLowerCase())) {
                         possibilities.push(cmds.CAT.value + " " + config.welcome_file_name);
                     }
-                    for (var file in files) {
+                    for (var file in files.getInstance()) {
                         if (file.startsWith(cmdComponents[1].toLowerCase())) {
                             possibilities.push(cmds.CAT.value + " " + file);
                         }
@@ -274,17 +300,17 @@
             if (cmdComponents.length <= 1) {
                 result = config.usage + ": " + cmds.CAT.value + " <" + config.file + ">";
             }
-            else if (!cmdComponents[1] || (!cmdComponents[1] === config.welcome_file_name && !files.hasOwnProperty(cmdComponents[1]))) {
+            else if (!cmdComponents[1] || (!cmdComponents[1] === config.welcome_file_name && !files.getInstance().hasOwnProperty(cmdComponents[1]))) {
                 result = config.file_not_found.replace(config.value_token, cmdComponents[1]);
             }
             else {
-                result = cmdComponents[1] === config.welcome_file_name ? config.welcome : files[cmdComponents[1]];
+                result = cmdComponents[1] === config.welcome_file_name ? config.welcome : files.getInstance()[cmdComponents[1]];
             }
             this.type(result, this.unlock.bind(this));
         }
         ls() {
             var result = ".\n..\n" + config.welcome_file_name + "\n";
-            for (var file in files) {
+            for (var file in files.getInstance()) {
                 result += file + "\n";
             }
             this.type(result.trim(), this.unlock.bind(this));
@@ -406,7 +432,6 @@
 
     return {
         listener: function () {
-            console.log('init terminal');
             new Terminal(
                 document.getElementById("prompt"),
                 document.getElementById("cmdline"),
